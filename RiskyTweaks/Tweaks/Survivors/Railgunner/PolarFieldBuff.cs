@@ -21,6 +21,8 @@ namespace RiskyTweaks.Tweaks.Survivors.Railgunner
             On.RoR2.Projectile.SlowDownProjectiles.OnTriggerExit += SlowDownProjectiles_OnTriggerExit;
         }
 
+        private const float reductionFactor = 3f;
+
         private void SlowDownProjectiles_OnTriggerEnter(On.RoR2.Projectile.SlowDownProjectiles.orig_OnTriggerEnter orig, RoR2.Projectile.SlowDownProjectiles self, UnityEngine.Collider other)
         {
             {
@@ -29,7 +31,7 @@ namespace RiskyTweaks.Tweaks.Survivors.Railgunner
                     ProjectileDamage pd = other.GetComponent<ProjectileDamage>();
                     if (pd)
                     {
-                        pd.damage /= 3f;
+                        pd.damage /= reductionFactor;
                     }
                 }
                 orig(self, other);
@@ -44,7 +46,7 @@ namespace RiskyTweaks.Tweaks.Survivors.Railgunner
                 ProjectileDamage pd = other.GetComponent<ProjectileDamage>();
                 if (pd && other.GetComponent<ProjectileSimple>())
                 {
-                    pd.damage *= 3f;
+                    pd.damage *= reductionFactor;
                 }
             }
             orig(self, other);
