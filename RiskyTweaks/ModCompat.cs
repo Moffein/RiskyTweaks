@@ -15,11 +15,5 @@ namespace RiskyTweaks
         {
             public static bool pluginLoaded;
         }
-
-        public static class MoreSacrificeInteractables
-        {
-
-        }
-
     }
 }
