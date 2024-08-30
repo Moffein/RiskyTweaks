@@ -14,7 +14,7 @@ namespace RiskyTweaks.Tweaks.Enemies
 
         public override string ConfigOptionName => "(Server-Side) Raise Level Cap";
 
-        public override string ConfigDescriptionString => "Raise monster level cap.";
+        public override string ConfigDescriptionString => "Raise monster level cap. WARNING: Healthbars may look buggy for clients without the mod once scaling goes past 99!";
 
         public override bool StopLoadOnConfigDisable => true;
 
