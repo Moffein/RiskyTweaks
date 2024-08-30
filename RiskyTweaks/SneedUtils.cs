@@ -8,6 +8,13 @@ namespace RiskyTweaks
 {
     public static class SneedUtils
     {
+        private static SceneDef bazaarSceneDef = Addressables.LoadAssetAsync<SceneDef>("RoR2/Base/bazaar/bazaar.asset").WaitForCompletion();
+        public static bool IsInBazaar()
+        {
+            SceneDef sd = SceneCatalog.GetSceneDefForCurrentScene();
+            return sd && sd == bazaarSceneDef;
+        }
+
         public static bool SetAddressableEntityStateField(string fullEntityStatePath, string fieldName, string value)
         {
             EntityStateConfiguration esc = Addressables.LoadAssetAsync<EntityStateConfiguration>(fullEntityStatePath).WaitForCompletion();
