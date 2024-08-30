@@ -52,4 +52,3 @@ namespace RiskyTweaks.Tweaks.Interactables
         }
     }
 }
-}
