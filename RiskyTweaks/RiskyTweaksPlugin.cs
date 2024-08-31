@@ -14,8 +14,12 @@ namespace RiskyTweaks
     [BepInPlugin("com.Moffein.RiskyTweaks", "RiskyTweaks", "1.0.0")]
     public class RiskyTweaks : BaseUnityPlugin
     {
+        public static PluginInfo pluginInfo;
+
         private void Awake()
         {
+            pluginInfo = Info;
+            On.RoR2.Language.SetFolders += LoadLanguage.fixme;
             ModCompat.Init();
             AddToAssembly();
         }
