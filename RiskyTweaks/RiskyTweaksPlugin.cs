@@ -7,6 +7,8 @@ using System.Reflection;
 
 namespace RiskyTweaks
 {
+    [BepInDependency("com.funkfrog_sipondo.sharesuite", BepInDependency.DependencyFlags.SoftDependency)]
+    [BepInDependency("zombieseatflesh7.ArtifactOfPotential", BepInDependency.DependencyFlags.SoftDependency)]
     [BepInDependency(R2API.R2API.PluginGUID)]
     [NetworkCompatibility(CompatibilityLevel.NoNeedForSync, VersionStrictness.DifferentModVersionsAreOk)]
     [BepInPlugin("com.Moffein.RiskyTweaks", "RiskyTweaks", "1.0.0")]
