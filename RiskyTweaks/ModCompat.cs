@@ -1,4 +1,5 @@
 ﻿using RiskOfOptions;
+using RiskyTweaks.FireSelect;
 using RoR2;
 using System.Runtime.CompilerServices;
 
@@ -28,6 +29,8 @@ namespace RiskyTweaks
             [MethodImpl(MethodImplOptions.NoInlining | MethodImplOptions.NoOptimization)]
             private static void AddOptionsInternal()
             {
+                ModSettingsManager.AddOption(new RiskOfOptions.Options.CheckBoxOption(Tweaks.Survivors.Merc.M1AttackSpeed.Instance.Enabled));
+
                 ModSettingsManager.AddOption(new RiskOfOptions.Options.CheckBoxOption(FireSelectManager.scrollSelection));
                 ModSettingsManager.AddOption(new RiskOfOptions.Options.KeyBindOption(FireSelectManager.nextButton));
                 ModSettingsManager.AddOption(new RiskOfOptions.Options.KeyBindOption(FireSelectManager.prevButton));
@@ -38,6 +41,15 @@ namespace RiskyTweaks
                     ModSettingsManager.AddOption(new RiskOfOptions.Options.KeyBindOption(Tweaks.Survivors.Bandit2.PrimaryAutoFire.FireMode.defaultButton));
                     ModSettingsManager.AddOption(new RiskOfOptions.Options.KeyBindOption(Tweaks.Survivors.Bandit2.PrimaryAutoFire.FireMode.spamButton));
                 }
+
+                ModSettingsManager.AddOption(new RiskOfOptions.Options.CheckBoxOption(EngiAutoFire.enabled));
+                ModSettingsManager.AddOption(new RiskOfOptions.Options.KeyBindOption(EngiAutoFire.autoButton));
+                ModSettingsManager.AddOption(new RiskOfOptions.Options.KeyBindOption(EngiAutoFire.holdButton));
+
+                ModSettingsManager.AddOption(new RiskOfOptions.Options.CheckBoxOption(CaptainAutoFire.enabled));
+                ModSettingsManager.AddOption(new RiskOfOptions.Options.KeyBindOption(CaptainAutoFire.defaultButton));
+                ModSettingsManager.AddOption(new RiskOfOptions.Options.KeyBindOption(CaptainAutoFire.autoButton));
+                ModSettingsManager.AddOption(new RiskOfOptions.Options.KeyBindOption(CaptainAutoFire.chargedButton));
             }
         }
 

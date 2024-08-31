@@ -1,5 +1,6 @@
 ﻿using BepInEx.Configuration;
 using EntityStates;
+using RiskyTweaks.FireSelect;
 using RoR2;
 using RoR2.Skills;
 using System;
@@ -77,7 +78,7 @@ namespace RiskyTweaks.Tweaks.Survivors.Bandit2
                 Addressables.LoadAssetAsync<ReloadSkillDef>("RoR2/Base/Bandit2/Bandit2Blast.asset").WaitForCompletion()
             };
 
-            private static BodyIndex bandit2Index;
+            private static BodyIndex targetBodyIndex;
 
             internal static void Init(ConfigFile config)
             {
@@ -93,13 +94,20 @@ namespace RiskyTweaks.Tweaks.Survivors.Bandit2
             private static void ReadConfig(ConfigFile config)
             {
                 enabled = config.Bind<bool>("Fire Select - Bandit Primary Autofire", "Use Fire Select", true, "Enable firemode selection. Requires Bandit Primary Autofire to be enabled.");
+                enabled.SettingChanged += Enabled_SettingChanged;
+                
                 defaultButton = config.Bind<KeyboardShortcut>("Fire Select - Bandit Primary Autofire", "Default Button", KeyboardShortcut.Empty, "Button to select Default firemode.");
-                defaultButton = config.Bind<KeyboardShortcut>("Fire Select - Bandit Primary Autofire", "Spam Button", KeyboardShortcut.Empty, "Button to select Spam firemode.");
+                spamButton = config.Bind<KeyboardShortcut>("Fire Select - Bandit Primary Autofire", "Spam Button", KeyboardShortcut.Empty, "Button to select Spam firemode.");
+            }
+
+            private static void Enabled_SettingChanged(object sender, EventArgs e)
+            {
+                if (!enabled.Value) currentfireMode = Bandit2FireMode.Default;
             }
 
             private static void OnLoad()
             {
-                bandit2Index = BodyCatalog.FindBodyIndex("Bandit2Body");
+                targetBodyIndex = BodyCatalog.FindBodyIndex("Bandit2Body");
             }
 
             private static void SkillIcon_Update(On.RoR2.UI.SkillIcon.orig_Update orig, RoR2.UI.SkillIcon self)
@@ -107,7 +115,7 @@ namespace RiskyTweaks.Tweaks.Survivors.Bandit2
                 orig(self);
                 if (enabled.Value && self.targetSkill && self.targetSkillSlot == SkillSlot.Primary)
                 {
-                    if (self.targetSkill.characterBody.bodyIndex == bandit2Index
+                    if (self.targetSkill.characterBody.bodyIndex == targetBodyIndex
                     && (targetSkills.Contains(self.targetSkill.skillDef)))
                     {
                         self.stockText.gameObject.SetActive(true);
@@ -131,16 +139,21 @@ namespace RiskyTweaks.Tweaks.Survivors.Bandit2
 
             private static void FireModeAction()
             {
+                if (!enabled.Value) return;
                 float scroll = Input.mouseScrollDelta.y;
-                if ((FireSelectManager.scrollSelection.Value && scroll != 0) || (FireSelectManager.nextButton.Value.IsDown() || FireSelectManager.prevButton.Value.IsDown()))
+                bool nextDown = FireSelectManager.nextButton.Value.IsDown();
+                bool prevDown = FireSelectManager.prevButton.Value.IsDown();
+
+                if ((FireSelectManager.scrollSelection.Value && scroll != 0) || (nextDown || prevDown))
                 {
                     CycleFireMode();
                 }
+
                 if (SneedUtils.GetKeyPressed(defaultButton))
                 {
                     currentfireMode = Bandit2FireMode.Default;
                 }
-                if (SneedUtils.GetKeyPressed(spamButton))
+                else if (SneedUtils.GetKeyPressed(spamButton))
                 {
                     currentfireMode = Bandit2FireMode.Spam;
                 }

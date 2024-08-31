@@ -1,6 +1,7 @@
 ﻿using BepInEx;
 using Facepunch.Steamworks;
 using R2API.Utils;
+using RiskyTweaks.FireSelect;
 using RiskyTweaks.Tweaks;
 using System;
 using System.Linq;
@@ -29,7 +30,7 @@ namespace RiskyTweaks
             ModCompat.Init();
 
             base.gameObject.AddComponent<FireSelectManager>();
-            FireSelectManager.ReadConfig(Config);
+            FireSelectManager.Init(Config);
 
             AddToAssembly();
         }
