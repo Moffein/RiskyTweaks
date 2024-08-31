@@ -1,4 +1,5 @@
-﻿using RoR2;
+﻿using RiskOfOptions;
+using RoR2;
 using System.Runtime.CompilerServices;
 
 namespace RiskyTweaks
@@ -11,11 +12,33 @@ namespace RiskyTweaks
             ShareSuiteCompat.pluginLoaded = BepInEx.Bootstrap.Chainloader.PluginInfos.ContainsKey("com.funkfrog_sipondo.sharesuite");
             ShareSuiteCompat.ReadSettings();
             ArtifactOfPotentialCompat.pluginLoaded = BepInEx.Bootstrap.Chainloader.PluginInfos.ContainsKey("zombieseatflesh7.ArtifactOfPotential");
+
+            RoR2Application.onLoad += RiskOfOptionsCompat.AddOptions;
         }
 
         public static class RiskOfOptionsCompat
         {
             public static bool pluginLoaded;
+
+            internal static void AddOptions()
+            {
+                if (pluginLoaded) AddOptionsInternal();
+            }
+
+            [MethodImpl(MethodImplOptions.NoInlining | MethodImplOptions.NoOptimization)]
+            private static void AddOptionsInternal()
+            {
+                ModSettingsManager.AddOption(new RiskOfOptions.Options.CheckBoxOption(FireSelectManager.scrollSelection));
+                ModSettingsManager.AddOption(new RiskOfOptions.Options.KeyBindOption(FireSelectManager.nextButton));
+                ModSettingsManager.AddOption(new RiskOfOptions.Options.KeyBindOption(FireSelectManager.prevButton));
+
+                if (Tweaks.Survivors.Bandit2.PrimaryAutoFire.Instance.Enabled.Value)
+                {
+                    ModSettingsManager.AddOption(new RiskOfOptions.Options.CheckBoxOption(Tweaks.Survivors.Bandit2.PrimaryAutoFire.FireMode.enabled));
+                    ModSettingsManager.AddOption(new RiskOfOptions.Options.KeyBindOption(Tweaks.Survivors.Bandit2.PrimaryAutoFire.FireMode.defaultButton));
+                    ModSettingsManager.AddOption(new RiskOfOptions.Options.KeyBindOption(Tweaks.Survivors.Bandit2.PrimaryAutoFire.FireMode.spamButton));
+                }
+            }
         }
 
         public static class ShareSuiteCompat

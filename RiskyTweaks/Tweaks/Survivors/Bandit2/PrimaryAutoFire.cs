@@ -1,9 +1,13 @@
-﻿using EntityStates;
+﻿using BepInEx.Configuration;
+using EntityStates;
+using RoR2;
 using RoR2.Skills;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using UnityEngine;
 using UnityEngine.AddressableAssets;
+using static RiskyTweaks.Tweaks.Survivors.Bandit2.PrimaryAutoFire.FireMode;
 
 namespace RiskyTweaks.Tweaks.Survivors.Bandit2
 {
@@ -14,6 +18,13 @@ namespace RiskyTweaks.Tweaks.Survivors.Bandit2
         public override string ConfigOptionName => "(Client-Side) Primary Autofire";
 
         public override string ConfigDescriptionString => "Primaries automatically fire when holding down the button.";
+
+        protected override void ReadConfig(ConfigFile config)
+        {
+            base.ReadConfig(config);
+            FireMode.Init(config);
+
+        }
 
         protected override void ApplyChanges()
         {
@@ -32,15 +43,14 @@ namespace RiskyTweaks.Tweaks.Survivors.Bandit2
 
         private void Bandit2FirePrimaryBase_OnEnter(On.EntityStates.Bandit2.Weapon.Bandit2FirePrimaryBase.orig_OnEnter orig, EntityStates.Bandit2.Weapon.Bandit2FirePrimaryBase self)
         {
-            /*if (fireMode == BanditFireMode.Tap)
+            if (FireMode.currentfireMode == FireMode.Bandit2FireMode.Default)
             {
-                self.minimumBaseDuration = autoFireDuration;
+                self.minimumBaseDuration = 0.3f;
             }
             else
             {
-                self.minimumBaseDuration = burstFireDuration;
-            }*/
-            self.minimumBaseDuration = 0.3f;
+                self.minimumBaseDuration = 0.12f;
+            }
             orig(self);
         }
 
@@ -51,6 +61,90 @@ namespace RiskyTweaks.Tweaks.Survivors.Bandit2
                 return InterruptPriority.PrioritySkill;
             }
             return InterruptPriority.Any;
+        }
+
+        public static class FireMode
+        {
+            private static bool initialized = false;
+            public enum Bandit2FireMode { Default, Spam }
+            public static Bandit2FireMode currentfireMode = Bandit2FireMode.Default;
+            public static ConfigEntry<bool> enabled;
+            public static ConfigEntry<KeyboardShortcut> defaultButton;
+            public static ConfigEntry<KeyboardShortcut> spamButton;
+            public static List<SkillDef> targetSkills = new List<SkillDef>
+            {
+                Addressables.LoadAssetAsync<ReloadSkillDef>("RoR2/Base/Bandit2/FireShotgun2.asset").WaitForCompletion(),
+                Addressables.LoadAssetAsync<ReloadSkillDef>("RoR2/Base/Bandit2/Bandit2Blast.asset").WaitForCompletion()
+            };
+
+            private static BodyIndex bandit2Index;
+
+            internal static void Init(ConfigFile config)
+            {
+                if (initialized) return;
+                initialized = true;
+                ReadConfig(config);
+
+                RoR2Application.onLoad += OnLoad;
+                On.RoR2.UI.SkillIcon.Update += SkillIcon_Update;
+                FireSelectManager.FireModeActions += FireModeAction;
+            }
+
+            private static void ReadConfig(ConfigFile config)
+            {
+                enabled = config.Bind<bool>("Fire Select - Bandit Primary Autofire", "Use Fire Select", true, "Enable firemode selection. Requires Bandit Primary Autofire to be enabled.");
+                defaultButton = config.Bind<KeyboardShortcut>("Fire Select - Bandit Primary Autofire", "Default Button", KeyboardShortcut.Empty, "Button to select Default firemode.");
+                defaultButton = config.Bind<KeyboardShortcut>("Fire Select - Bandit Primary Autofire", "Spam Button", KeyboardShortcut.Empty, "Button to select Spam firemode.");
+            }
+
+            private static void OnLoad()
+            {
+                bandit2Index = BodyCatalog.FindBodyIndex("Bandit2Body");
+            }
+
+            private static void SkillIcon_Update(On.RoR2.UI.SkillIcon.orig_Update orig, RoR2.UI.SkillIcon self)
+            {
+                orig(self);
+                if (enabled.Value && self.targetSkill && self.targetSkillSlot == SkillSlot.Primary)
+                {
+                    if (self.targetSkill.characterBody.bodyIndex == bandit2Index
+                    && (targetSkills.Contains(self.targetSkill.skillDef)))
+                    {
+                        self.stockText.gameObject.SetActive(true);
+                        self.stockText.fontSize = 12f;
+                        self.stockText.SetText(currentfireMode.ToString() + "(" + self.targetSkill.stock + ")");
+                    }
+                }
+            }
+
+            private static void CycleFireMode()
+            {
+                if (currentfireMode == Bandit2FireMode.Default)
+                {
+                    currentfireMode = Bandit2FireMode.Spam;
+                }
+                else
+                {
+                    currentfireMode = Bandit2FireMode.Default;
+                }
+            }
+
+            private static void FireModeAction()
+            {
+                float scroll = Input.mouseScrollDelta.y;
+                if ((FireSelectManager.scrollSelection.Value && scroll != 0) || (FireSelectManager.nextButton.Value.IsDown() || FireSelectManager.prevButton.Value.IsDown()))
+                {
+                    CycleFireMode();
+                }
+                if (SneedUtils.GetKeyPressed(defaultButton))
+                {
+                    currentfireMode = Bandit2FireMode.Default;
+                }
+                if (SneedUtils.GetKeyPressed(spamButton))
+                {
+                    currentfireMode = Bandit2FireMode.Spam;
+                }
+            }
         }
     }
 }

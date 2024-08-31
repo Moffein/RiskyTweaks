@@ -1,14 +1,20 @@
 ﻿using BepInEx;
+using Facepunch.Steamworks;
 using R2API.Utils;
 using RiskyTweaks.Tweaks;
 using System;
 using System.Linq;
 using System.Reflection;
+using System.Security;
+using System.Security.Permissions;
 
+[module: UnverifiableCode]
+[assembly: SecurityPermission(SecurityAction.RequestMinimum, SkipVerification = true)]
 namespace RiskyTweaks
 {
     [BepInDependency("com.funkfrog_sipondo.sharesuite", BepInDependency.DependencyFlags.SoftDependency)]
     [BepInDependency("zombieseatflesh7.ArtifactOfPotential", BepInDependency.DependencyFlags.SoftDependency)]
+    [BepInDependency("com.rune580.riskofoptions", BepInDependency.DependencyFlags.SoftDependency)]
     [BepInDependency(R2API.R2API.PluginGUID)]
     [NetworkCompatibility(CompatibilityLevel.NoNeedForSync, VersionStrictness.DifferentModVersionsAreOk)]
     [BepInPlugin("com.Moffein.RiskyTweaks", "RiskyTweaks", "1.0.0")]
@@ -21,6 +27,10 @@ namespace RiskyTweaks
             pluginInfo = Info;
             On.RoR2.Language.SetFolders += LoadLanguage.fixme;
             ModCompat.Init();
+
+            base.gameObject.AddComponent<FireSelectManager>();
+            FireSelectManager.ReadConfig(Config);
+
             AddToAssembly();
         }
 
