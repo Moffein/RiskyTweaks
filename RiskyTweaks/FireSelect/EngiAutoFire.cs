@@ -14,7 +14,7 @@ namespace RiskyTweaks.FireSelect
         //Default firemode is only used when fire select is disabled, because it has no niche when Auto/Hold are a thing.
         public enum EngiFireMode { Default, Auto, Hold }
         public static EngiFireMode currentfireMode = EngiFireMode.Default;
-        public static ConfigEntry<bool> enabled;
+        public static ConfigEntry<bool> Enabled;
         public static ConfigEntry<KeyboardShortcut> holdButton;
         public static ConfigEntry<KeyboardShortcut> autoButton;
         public static List<SkillDef> targetSkills = new List<SkillDef>
@@ -60,10 +60,10 @@ namespace RiskyTweaks.FireSelect
 
         private static void ReadConfig(ConfigFile config)
         {
-            enabled = config.Bind<bool>("Fire Select - Engineer", "Use Fire Select", true, "Enable firemode selection.");
-            enabled.SettingChanged += Enabled_SettingChanged;
+            Enabled = config.Bind<bool>("Fire Select - Engineer", "Use Fire Select", true, "Enable firemode selection.");
+            Enabled.SettingChanged += Enabled_SettingChanged;
 
-            if (enabled.Value) currentfireMode = EngiFireMode.Hold;
+            if (Enabled.Value) currentfireMode = EngiFireMode.Hold;
 
             autoButton = config.Bind<KeyboardShortcut>("Fire Select - Engineer", "Auto Button", KeyboardShortcut.Empty, "Button to select Auto firemode.");
             holdButton = config.Bind<KeyboardShortcut>("Fire Select - Engineer", "Hold Button", KeyboardShortcut.Empty, "Button to select Hold firemode.");
@@ -71,7 +71,7 @@ namespace RiskyTweaks.FireSelect
 
         private static void Enabled_SettingChanged(object sender, System.EventArgs e)
         {
-            if (!enabled.Value)
+            if (!Enabled.Value)
             {
                 currentfireMode = EngiFireMode.Default;
             }
@@ -84,7 +84,7 @@ namespace RiskyTweaks.FireSelect
         private static void SkillIcon_Update(On.RoR2.UI.SkillIcon.orig_Update orig, RoR2.UI.SkillIcon self)
         {
             orig(self);
-            if (enabled.Value && self.targetSkill && self.targetSkillSlot == SkillSlot.Primary)
+            if (Enabled.Value && self.targetSkill && self.targetSkillSlot == SkillSlot.Primary)
             {
                 if (self.targetSkill.characterBody.bodyIndex == targetBodyIndex
                 && (targetSkills.Contains(self.targetSkill.skillDef)))
@@ -110,7 +110,7 @@ namespace RiskyTweaks.FireSelect
 
         private static void FireModeAction()
         {
-            if (!enabled.Value) return;
+            if (!Enabled.Value) return;
             float scroll = Input.mouseScrollDelta.y;
             bool nextDown = FireSelectManager.nextButton.Value.IsDown();
             bool prevDown = FireSelectManager.prevButton.Value.IsDown();

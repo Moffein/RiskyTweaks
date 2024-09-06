@@ -16,7 +16,7 @@ namespace RiskyTweaks.FireSelect
     {
         public enum CaptainFireMode { Default, Auto, Charged }
         public static CaptainFireMode currentfireMode = CaptainFireMode.Default;
-        public static ConfigEntry<bool> enabled;
+        public static ConfigEntry<bool> Enabled;
         public static ConfigEntry<KeyboardShortcut> defaultButton;
         public static ConfigEntry<KeyboardShortcut> chargedButton;
         public static ConfigEntry<KeyboardShortcut> autoButton;
@@ -107,8 +107,8 @@ namespace RiskyTweaks.FireSelect
 
         private static void ReadConfig(ConfigFile config)
         {
-            enabled = config.Bind<bool>("Fire Select - Captain", "Use Fire Select", true, "Enable firemode selection.");
-            enabled.SettingChanged += Enabled_SettingChanged;
+            Enabled = config.Bind<bool>("Fire Select - Captain", "Use Fire Select", true, "Enable firemode selection.");
+            Enabled.SettingChanged += Enabled_SettingChanged;
 
             defaultButton = config.Bind<KeyboardShortcut>("Fire Select - Captain", "Default Button", KeyboardShortcut.Empty, "Button to select Default firemode.");
             autoButton = config.Bind<KeyboardShortcut>("Fire Select - Captain", "Auto Button", KeyboardShortcut.Empty, "Button to select Auto firemode.");
@@ -117,13 +117,13 @@ namespace RiskyTweaks.FireSelect
 
         private static void Enabled_SettingChanged(object sender, EventArgs e)
         {
-            if (!enabled.Value) currentfireMode = CaptainFireMode.Default;
+            if (!Enabled.Value) currentfireMode = CaptainFireMode.Default;
         }
 
         private static void SkillIcon_Update(On.RoR2.UI.SkillIcon.orig_Update orig, RoR2.UI.SkillIcon self)
         {
             orig(self);
-            if (enabled.Value && self.targetSkill && self.targetSkillSlot == SkillSlot.Primary)
+            if (Enabled.Value && self.targetSkill && self.targetSkillSlot == SkillSlot.Primary)
             {
                 if (self.targetSkill.characterBody.bodyIndex == targetBodyIndex
                 && (targetSkills.Contains(self.targetSkill.skillDef)))

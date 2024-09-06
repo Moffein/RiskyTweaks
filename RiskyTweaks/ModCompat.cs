@@ -43,11 +43,11 @@ namespace RiskyTweaks
                     ModSettingsManager.AddOption(new RiskOfOptions.Options.KeyBindOption(Tweaks.Survivors.Bandit2.PrimaryAutoFire.FireMode.spamButton));
                 }
 
-                ModSettingsManager.AddOption(new RiskOfOptions.Options.CheckBoxOption(EngiAutoFire.enabled));
+                ModSettingsManager.AddOption(new RiskOfOptions.Options.CheckBoxOption(EngiAutoFire.Enabled));
                 ModSettingsManager.AddOption(new RiskOfOptions.Options.KeyBindOption(EngiAutoFire.autoButton));
                 ModSettingsManager.AddOption(new RiskOfOptions.Options.KeyBindOption(EngiAutoFire.holdButton));
 
-                ModSettingsManager.AddOption(new RiskOfOptions.Options.CheckBoxOption(CaptainAutoFire.enabled));
+                ModSettingsManager.AddOption(new RiskOfOptions.Options.CheckBoxOption(CaptainAutoFire.Enabled));
                 ModSettingsManager.AddOption(new RiskOfOptions.Options.KeyBindOption(CaptainAutoFire.defaultButton));
                 ModSettingsManager.AddOption(new RiskOfOptions.Options.KeyBindOption(CaptainAutoFire.autoButton));
                 ModSettingsManager.AddOption(new RiskOfOptions.Options.KeyBindOption(CaptainAutoFire.chargedButton));
