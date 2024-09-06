@@ -38,7 +38,7 @@ namespace RiskyTweaks
 
                 if (Tweaks.Survivors.Bandit2.PrimaryAutoFire.Instance.Enabled.Value)
                 {
-                    ModSettingsManager.AddOption(new RiskOfOptions.Options.CheckBoxOption(Tweaks.Survivors.Bandit2.PrimaryAutoFire.FireMode.enabled));
+                    ModSettingsManager.AddOption(new RiskOfOptions.Options.CheckBoxOption(Tweaks.Survivors.Bandit2.PrimaryAutoFire.FireMode.Enabled));
                     ModSettingsManager.AddOption(new RiskOfOptions.Options.KeyBindOption(Tweaks.Survivors.Bandit2.PrimaryAutoFire.FireMode.defaultButton));
                     ModSettingsManager.AddOption(new RiskOfOptions.Options.KeyBindOption(Tweaks.Survivors.Bandit2.PrimaryAutoFire.FireMode.spamButton));
                 }

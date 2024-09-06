@@ -69,7 +69,7 @@ namespace RiskyTweaks.Tweaks.Survivors.Bandit2
             private static bool initialized = false;
             public enum Bandit2FireMode { Default, Spam }
             public static Bandit2FireMode currentfireMode = Bandit2FireMode.Default;
-            public static ConfigEntry<bool> enabled;
+            public static ConfigEntry<bool> Enabled;
             public static ConfigEntry<KeyboardShortcut> defaultButton;
             public static ConfigEntry<KeyboardShortcut> spamButton;
             public static List<SkillDef> targetSkills = new List<SkillDef>
@@ -93,8 +93,8 @@ namespace RiskyTweaks.Tweaks.Survivors.Bandit2
 
             private static void ReadConfig(ConfigFile config)
             {
-                enabled = config.Bind<bool>("Fire Select - Bandit Primary Autofire", "Use Fire Select", true, "Enable firemode selection. Requires Bandit Primary Autofire to be enabled.");
-                enabled.SettingChanged += Enabled_SettingChanged;
+                Enabled = config.Bind<bool>("Fire Select - Bandit Primary Autofire", "Use Fire Select", true, "Enable firemode selection. Requires Bandit Primary Autofire to be enabled.");
+                Enabled.SettingChanged += Enabled_SettingChanged;
                 
                 defaultButton = config.Bind<KeyboardShortcut>("Fire Select - Bandit Primary Autofire", "Default Button", KeyboardShortcut.Empty, "Button to select Default firemode.");
                 spamButton = config.Bind<KeyboardShortcut>("Fire Select - Bandit Primary Autofire", "Spam Button", KeyboardShortcut.Empty, "Button to select Spam firemode.");
@@ -102,7 +102,7 @@ namespace RiskyTweaks.Tweaks.Survivors.Bandit2
 
             private static void Enabled_SettingChanged(object sender, EventArgs e)
             {
-                if (!enabled.Value) currentfireMode = Bandit2FireMode.Default;
+                if (!Enabled.Value) currentfireMode = Bandit2FireMode.Default;
             }
 
             private static void OnLoad()
@@ -113,7 +113,7 @@ namespace RiskyTweaks.Tweaks.Survivors.Bandit2
             private static void SkillIcon_Update(On.RoR2.UI.SkillIcon.orig_Update orig, RoR2.UI.SkillIcon self)
             {
                 orig(self);
-                if (enabled.Value && self.targetSkill && self.targetSkillSlot == SkillSlot.Primary)
+                if (Enabled.Value && self.targetSkill && self.targetSkillSlot == SkillSlot.Primary)
                 {
                     if (self.targetSkill.characterBody.bodyIndex == targetBodyIndex
                     && (targetSkills.Contains(self.targetSkill.skillDef)))
@@ -139,7 +139,7 @@ namespace RiskyTweaks.Tweaks.Survivors.Bandit2
 
             private static void FireModeAction()
             {
-                if (!enabled.Value) return;
+                if (!Enabled.Value) return;
                 float scroll = Input.mouseScrollDelta.y;
                 bool nextDown = FireSelectManager.nextButton.Value.IsDown();
                 bool prevDown = FireSelectManager.prevButton.Value.IsDown();
