@@ -12,7 +12,7 @@ namespace RiskyTweaks.Tweaks.Survivors.Mage
     {
         public override string ConfigCategoryString => "Survivors - Artificer";
 
-        public override string ConfigOptionName => "Ion Surge - Disable Movement Speed Scaling";
+        public override string ConfigOptionName => "(Client-Side) Ion Surge - Disable Movement Speed Scaling";
 
         public override string ConfigDescriptionString => "Makes Ion Surge always go a consistent distance regardless of movement speed.";
 
