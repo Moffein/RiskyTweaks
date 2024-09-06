@@ -1,5 +1,6 @@
 ﻿using RiskOfOptions;
 using RiskyTweaks.FireSelect;
+using RiskyTweaks.Tweaks.Survivors.Mage;
 using RoR2;
 using System.Runtime.CompilerServices;
 
@@ -50,6 +51,8 @@ namespace RiskyTweaks
                 ModSettingsManager.AddOption(new RiskOfOptions.Options.KeyBindOption(CaptainAutoFire.defaultButton));
                 ModSettingsManager.AddOption(new RiskOfOptions.Options.KeyBindOption(CaptainAutoFire.autoButton));
                 ModSettingsManager.AddOption(new RiskOfOptions.Options.KeyBindOption(CaptainAutoFire.chargedButton));
+
+                RiskOfOptions.ModSettingsManager.AddOption(new RiskOfOptions.Options.CheckBoxOption(IonSurgeMoveScaling.Instance.Enabled));
             }
         }
 

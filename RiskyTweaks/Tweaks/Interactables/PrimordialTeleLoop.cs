@@ -71,6 +71,7 @@ namespace RiskyTweaks.Tweaks.Interactables
                         }
                         return origTeleporter;
                     });
+                    error = false;
                 }
             }
 
