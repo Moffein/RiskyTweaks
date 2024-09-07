@@ -14,8 +14,14 @@ namespace RiskyTweaks
             ShareSuiteCompat.pluginLoaded = BepInEx.Bootstrap.Chainloader.PluginInfos.ContainsKey("com.funkfrog_sipondo.sharesuite");
             ShareSuiteCompat.ReadSettings();
             ArtifactOfPotentialCompat.pluginLoaded = BepInEx.Bootstrap.Chainloader.PluginInfos.ContainsKey("zombieseatflesh7.ArtifactOfPotential");
+            TeleExpansionCompat.pluginLoaded = BepInEx.Bootstrap.Chainloader.PluginInfos.ContainsKey("com.Moffein.TeleExpansion");
 
             RoR2Application.onLoad += RiskOfOptionsCompat.AddOptions;
+        }
+
+        public static class TeleExpansionCompat
+        {
+            public static bool pluginLoaded;
         }
 
         public static class RiskOfOptionsCompat
