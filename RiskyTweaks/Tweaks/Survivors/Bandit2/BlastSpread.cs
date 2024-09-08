@@ -9,9 +9,9 @@ namespace RiskyTweaks.Tweaks.Survivors.Bandit2
     {
         public override string ConfigCategoryString => "Survivors - Bandit";
 
-        public override string ConfigOptionName => "(Client-Side) Blast - No Spread";
+        public override string ConfigOptionName => "(Client-Side) Blast - Reduce Spread";
 
-        public override string ConfigDescriptionString => "Blast is always perfectly accurate.";
+        public override string ConfigDescriptionString => "Blast spread is reduced.";
 
         protected override void ApplyChanges()
         {
@@ -21,7 +21,7 @@ namespace RiskyTweaks.Tweaks.Survivors.Bandit2
         private void Bandit2FireRifle_ModifyBullet(On.EntityStates.Bandit2.Weapon.Bandit2FireRifle.orig_ModifyBullet orig, EntityStates.Bandit2.Weapon.Bandit2FireRifle self, RoR2.BulletAttack bulletAttack)
         {
             orig(self, bulletAttack);
-            bulletAttack.maxSpread = 0f;
+            bulletAttack.maxSpread *= 0.5f;
             bulletAttack.minSpread = 0f;
         }
     }
