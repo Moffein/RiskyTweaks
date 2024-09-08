@@ -12,7 +12,7 @@ namespace RiskyTweaks.Tweaks.Survivors.Loader
 
         public override string ConfigOptionName => "(Client-Side) Sprint QoL";
 
-        public override string ConfigDescriptionString => "M2 and Shift dont cancel sprinting.";
+        public override string ConfigDescriptionString => "Non-primary skills don't cancel sprinting.";
 
         public override bool StopLoadOnConfigDisable => true;
 
@@ -30,6 +30,14 @@ namespace RiskyTweaks.Tweaks.Survivors.Loader
 
             defaultShift.cancelSprintingOnActivation = true;
             altShift.cancelSprintingOnActivation = true;
+
+
+            SkillDef slamDef = Addressables.LoadAssetAsync<SkillDef>("RoR2/Base/Loader/GroundSlam.asset").WaitForCompletion();
+            slamDef.cancelSprintingOnActivation = false;
+
+
+            SkillDef pylonDef = Addressables.LoadAssetAsync<SkillDef>("RoR2/Base/Loader/ThrowPylon.asset").WaitForCompletion();
+            pylonDef.cancelSprintingOnActivation = false;
         }
     }
 }
