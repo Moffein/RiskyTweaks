@@ -21,6 +21,7 @@ namespace RiskyTweaks.Tweaks.Survivors.Engi
         {
             GameObject prefab = Addressables.LoadAssetAsync<GameObject>("RoR2/Base/Engi/EngiWalkerTurretBody.prefab").WaitForCompletion();
             CharacterBody cb = prefab.GetComponent<CharacterBody>();
+            cb.bodyFlags |= CharacterBody.BodyFlags.IgnoreFallDamage;
             if (cb.baseRegen < 1f)
             {
                 cb.baseRegen = 1f;
