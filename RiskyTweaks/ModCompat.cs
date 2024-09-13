@@ -17,6 +17,7 @@ namespace RiskyTweaks
             TeleExpansionCompat.pluginLoaded = BepInEx.Bootstrap.Chainloader.PluginInfos.ContainsKey("com.Moffein.TeleExpansion");
 
             RoR2Application.onLoad += RiskOfOptionsCompat.AddOptions;
+            RoR2Application.onLoad += RiskyArtifactsCompat.InitArtifactDefs;
         }
 
         public static class TeleExpansionCompat
@@ -108,6 +109,26 @@ namespace RiskyTweaks
             private static bool IsArtifactActiveInternal()
             {
                 return RunArtifactManager.instance && RunArtifactManager.instance.IsArtifactEnabled(ArtifactOfPotential.PotentialArtifact.Potential);
+            }
+        }
+
+        public static class RiskyArtifactsCompat
+        {
+            public static bool pluginLoaded;
+
+            internal static class ArtifactDefs
+            {
+                public static ArtifactDef Primacy;
+            }
+
+            internal static void InitArtifactDefs()
+            {
+                ArtifactDefs.Primacy = ArtifactCatalog.FindArtifactDef("RiskyArtifactOfPrimacy");
+            }
+
+            public static bool IsPrimacyActive()
+            {
+                return ArtifactDefs.Primacy != null && RunArtifactManager.instance && RunArtifactManager.instance.IsArtifactEnabled(ArtifactDefs.Primacy);
             }
         }
     }

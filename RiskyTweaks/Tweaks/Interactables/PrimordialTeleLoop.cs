@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Text;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
+using UnityEngine.Networking;
 
 namespace RiskyTweaks.Tweaks.Interactables
 {
@@ -23,6 +24,7 @@ namespace RiskyTweaks.Tweaks.Interactables
 
         protected override void ApplyChanges()
         {
+            LegacyResourcesAPI.Load<GameObject>("prefabs/networkedobjects/teleporters/LunarTeleporterProngs").AddComponent<PrimordialTeleInitialState>();
             IL.RoR2.SceneDirector.PlaceTeleporter += SceneDirector_PlaceTeleporter;
             On.RoR2.Stage.Start += Stage_Start;
             On.EntityStates.LunarTeleporter.IdleToActive.OnExit += IdleToActive_OnExit;
@@ -30,6 +32,12 @@ namespace RiskyTweaks.Tweaks.Interactables
 
         private void IdleToActive_OnExit(On.EntityStates.LunarTeleporter.IdleToActive.orig_OnExit orig, EntityStates.LunarTeleporter.IdleToActive self)
         {
+            if (ModCompat.RiskyArtifactsCompat.IsPrimacyActive())
+            {
+                orig(self);
+                return;
+            }
+
             if (!firstIdleToActive || isNaturalLunar)
             {
                 firstIdleToActive = false;
@@ -62,6 +70,7 @@ namespace RiskyTweaks.Tweaks.Interactables
                     c.Index++;
                     c.EmitDelegate<Func<SpawnCard, SpawnCard>>(origTeleporter =>
                     {
+                        if (ModCompat.RiskyArtifactsCompat.IsPrimacyActive()) return origTeleporter;
                         bool isNormalTele = origTeleporter == teleCard;
                         isNaturalLunar = !isNormalTele;
 
@@ -78,6 +87,28 @@ namespace RiskyTweaks.Tweaks.Interactables
             if (error)
             {
                 Debug.LogError("RiskyTweaks: PrimordialTeleLoop IL hook failed.");
+            }
+        }
+
+        public class PrimordialTeleInitialState : MonoBehaviour
+        {
+            public void Start()
+            {
+                if (ModCompat.RiskyArtifactsCompat.IsPrimacyActive())
+                {
+                    Destroy(this);
+                    return;
+                }
+
+                if (NetworkServer.active)
+                {
+                    if (!PrimordialTeleLoop.isNaturalLunar)
+                    {
+                        EntityStateMachine esm = base.GetComponent<EntityStateMachine>();
+                        esm.SetNextState(new EntityStates.LunarTeleporter.Idle());
+                    }
+                }
+                Destroy(this);
             }
         }
     }
