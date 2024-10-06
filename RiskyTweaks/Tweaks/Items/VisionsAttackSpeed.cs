@@ -19,6 +19,28 @@ namespace RiskyTweaks.Tweaks.Items
             LunarPrimaryReplacementSkill visionsDef = Addressables.LoadAssetAsync<LunarPrimaryReplacementSkill>("RoR2/Base/LunarSkillReplacements/LunarPrimaryReplacement.asset").WaitForCompletion();
             visionsDef.attackSpeedBuffsRestockSpeed = true;
             visionsDef.attackSpeedBuffsRestockSpeed_Multiplier = 1f;
+
+            //LunarPrimaryReplacement overrides the attackSpeedBuffsRestockSpeed stat
+            On.RoR2.Skills.LunarPrimaryReplacementSkill.GetRechargeInterval += LunarPrimaryReplacementSkill_GetRechargeInterval;
+        }
+
+        private float LunarPrimaryReplacementSkill_GetRechargeInterval(On.RoR2.Skills.LunarPrimaryReplacementSkill.orig_GetRechargeInterval orig, LunarPrimaryReplacementSkill self, RoR2.GenericSkill skillSlot)
+        {
+            float interval = orig(self, skillSlot);
+
+            if (self.attackSpeedBuffsRestockSpeed && skillSlot)
+            {
+                float num = skillSlot.characterBody.attackSpeed - skillSlot.characterBody.baseAttackSpeed;
+                num *= self.attackSpeedBuffsRestockSpeed_Multiplier;
+                num += 1f;
+                if (num < 0.5f)
+                {
+                    num = 0.5f;
+                }
+                interval /= num;
+            }
+
+            return interval;
         }
     }
 }
