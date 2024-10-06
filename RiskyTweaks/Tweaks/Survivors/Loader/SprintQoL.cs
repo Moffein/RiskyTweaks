@@ -25,11 +25,11 @@ namespace RiskyTweaks.Tweaks.Survivors.Loader
             SkillDef defaultShift = Addressables.LoadAssetAsync<SkillDef>("RoR2/Base/Loader/ChargeFist.asset").WaitForCompletion();
             SkillDef altShift = Addressables.LoadAssetAsync<SkillDef>("RoR2/Base/Loader/ChargeZapFist.asset").WaitForCompletion();
 
-            defaultGrapple.cancelSprintingOnActivation = true;
-            altGrapple.cancelSprintingOnActivation = true;
+            defaultGrapple.cancelSprintingOnActivation = false;
+            altGrapple.cancelSprintingOnActivation = false;
 
-            defaultShift.cancelSprintingOnActivation = true;
-            altShift.cancelSprintingOnActivation = true;
+            defaultShift.cancelSprintingOnActivation = false;
+            altShift.cancelSprintingOnActivation = false;
 
 
             SkillDef slamDef = Addressables.LoadAssetAsync<SkillDef>("RoR2/Base/Loader/GroundSlam.asset").WaitForCompletion();
