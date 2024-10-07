@@ -1,6 +1,7 @@
 ﻿using RoR2.Skills;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Text;
 using UnityEngine.AddressableAssets;
 
@@ -16,6 +17,11 @@ namespace RiskyTweaks.Tweaks.Items
 
         protected override void ApplyChanges()
         {
+            if (BepInEx.Bootstrap.Chainloader.PluginInfos.ContainsKey("com.Moffein.Heretic"))
+            {
+                UnityEngine.Debug.LogWarning("RiskyTweaks: Skipping Visions Attack Speed because Heretic is loaded.");
+                return;
+            }
             LunarPrimaryReplacementSkill visionsDef = Addressables.LoadAssetAsync<LunarPrimaryReplacementSkill>("RoR2/Base/LunarSkillReplacements/LunarPrimaryReplacement.asset").WaitForCompletion();
             visionsDef.attackSpeedBuffsRestockSpeed = true;
             visionsDef.attackSpeedBuffsRestockSpeed_Multiplier = 1f;
