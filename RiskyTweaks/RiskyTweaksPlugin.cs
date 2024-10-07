@@ -19,7 +19,7 @@ namespace RiskyTweaks
     [BepInDependency("com.rune580.riskofoptions", BepInDependency.DependencyFlags.SoftDependency)]
     [BepInDependency(R2API.R2API.PluginGUID)]
     [NetworkCompatibility(CompatibilityLevel.NoNeedForSync, VersionStrictness.DifferentModVersionsAreOk)]
-    [BepInPlugin("com.Moffein.RiskyTweaks", "RiskyTweaks", "1.3.6")]
+    [BepInPlugin("com.Moffein.RiskyTweaks", "RiskyTweaks", "1.3.7")]
     public class RiskyTweaks : BaseUnityPlugin
     {
         public static PluginInfo pluginInfo;

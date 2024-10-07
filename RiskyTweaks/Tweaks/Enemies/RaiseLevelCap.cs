@@ -32,6 +32,16 @@ namespace RiskyTweaks.Tweaks.Enemies
         {
             IL.RoR2.Run.RecalculateDifficultyCoefficentInternal += Run_RecalculateDifficultyCoefficentInternal;
             On.RoR2.LevelUpEffectManager.OnRunAmbientLevelUp += LevelUpEffectManager_OnRunAmbientLevelUp;
+            On.RoR2.LevelUpEffectManager.OnTeamLevelUp += LevelUpEffectManager_OnTeamLevelUp;
+        }
+
+        private void LevelUpEffectManager_OnTeamLevelUp(On.RoR2.LevelUpEffectManager.orig_OnTeamLevelUp orig, TeamIndex teamIndex)
+        {
+            if (teamIndex != TeamIndex.Player && TeamManager.instance && TeamManager.instance.teamLevels[(int)teamIndex] > stopSound)
+            {
+                return;
+            }
+            orig(teamIndex);
         }
 
         private void LevelUpEffectManager_OnRunAmbientLevelUp(On.RoR2.LevelUpEffectManager.orig_OnRunAmbientLevelUp orig, Run run)
