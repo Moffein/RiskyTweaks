@@ -37,9 +37,10 @@ namespace RiskyTweaks.Tweaks.Survivors.Croco
         private void HealthComponent_ServerFixedUpdate(On.RoR2.HealthComponent.orig_ServerFixedUpdate orig, RoR2.HealthComponent self, float deltaTime)
         {
             orig(self, deltaTime);
-            if (self.body && self.body.HasBuff(RoR2Content.Buffs.CrocoRegen))
+            if (self.body)
             {
-                self.HealFraction(0.1f * deltaTime, default);
+                int buffCount = self.body.GetBuffCount(RoR2Content.Buffs.CrocoRegen);
+                if (buffCount > 0)  self.HealFraction(0.1f * deltaTime * buffCount, default);
             }
         }
     }
