@@ -16,8 +16,6 @@ namespace RiskyTweaks.Tweaks.Items.Warbanner
 
         public override string ConfigDescriptionString => "Warbanner spawns in Mithrix Phase 1 and Simulacrum.";
 
-        private GameObject warbannerObject = LegacyResourcesAPI.Load<GameObject>("Prefabs/NetworkedObjects/WarbannerWard");
-
         protected override void ApplyChanges()
         {
             On.EntityStates.Missions.BrotherEncounter.Phase1.OnEnter += Phase1_OnEnter;
@@ -43,7 +41,8 @@ namespace RiskyTweaks.Tweaks.Items.Warbanner
                 int itemCount = body.inventory.GetItemCount(RoR2Content.Items.WardOnLevel);
                 if (itemCount > 0)
                 {
-                    GameObject gameObject = UnityEngine.Object.Instantiate<GameObject>(warbannerObject, body.transform.position, Quaternion.identity);
+                    if (!RoR2.Items.WardOnLevelManager.wardPrefab) return;
+                    GameObject gameObject = UnityEngine.Object.Instantiate<GameObject>(RoR2.Items.WardOnLevelManager.wardPrefab, body.transform.position, Quaternion.identity);
                     gameObject.GetComponent<TeamFilter>().teamIndex = TeamIndex.Player;
                     gameObject.GetComponent<BuffWard>().Networkradius = 8f + 8f * (float)itemCount;
                     NetworkServer.Spawn(gameObject);
@@ -59,21 +58,7 @@ namespace RiskyTweaks.Tweaks.Items.Warbanner
             {
                 TeamComponent teamComponent = teamMembers[j];
                 CharacterBody body = teamComponent.body;
-                if (body)
-                {
-                    CharacterMaster master = teamComponent.body.master;
-                    if (master)
-                    {
-                        int itemCount = master.inventory.GetItemCount(RoR2Content.Items.WardOnLevel);
-                        if (itemCount > 0)
-                        {
-                            GameObject gameObject = UnityEngine.Object.Instantiate<GameObject>(warbannerObject, body.transform.position, Quaternion.identity);
-                            gameObject.GetComponent<TeamFilter>().teamIndex = TeamIndex.Player;
-                            gameObject.GetComponent<BuffWard>().Networkradius = 8f + 8f * (float)itemCount;
-                            NetworkServer.Spawn(gameObject);
-                        }
-                    }
-                }
+                if (body) SpawnBanner(body);
             }
         }
     }
