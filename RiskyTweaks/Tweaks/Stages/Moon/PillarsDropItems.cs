@@ -219,21 +219,21 @@ namespace RiskyTweaks.Tweaks.Stages.Moon
 
             float total = whiteChance + greenChance + redChance + lunarChance;
 
-            if (bossRewardRng.RangeFloat(0f, total) <= whiteChance)//drop white
+            if (bossRewardRng.RangeFloat(0f, total) <= whiteChance && whiteChance > 0)//drop white
             {
                 list = Run.instance.availableTier1DropList;
             }
             else
             {
                 total -= whiteChance;
-                if (bossRewardRng.RangeFloat(0f, total) <= greenChance)//drop green
+                if (bossRewardRng.RangeFloat(0f, total) <= greenChance && greenChance > 0)//drop green
                 {
                     list = Run.instance.availableTier2DropList;
                 }
                 else
                 {
                     total -= greenChance;
-                    if ((bossRewardRng.RangeFloat(0f, total) <= redChance))
+                    if (bossRewardRng.RangeFloat(0f, total) <= redChance && redChance > 0)
                     {
                         list = Run.instance.availableTier3DropList;
                     }
@@ -241,7 +241,6 @@ namespace RiskyTweaks.Tweaks.Stages.Moon
                     {
                         list = Run.instance.availableLunarCombinedDropList;
                     }
-
                 }
             }
             if (list.Count > 0)

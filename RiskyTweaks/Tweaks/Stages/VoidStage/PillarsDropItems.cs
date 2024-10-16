@@ -50,6 +50,7 @@ namespace RiskyTweaks.Tweaks.Stages.VoidStage
                     {
                         HoldoutZoneController holdoutZone = self;
                         PickupDropTable dropTable = SelectItem();
+
                         PickupIndex pickupIndex = dropTable.GenerateDrop(Run.instance.bossRewardRng);
                         ItemTier tier = PickupCatalog.GetPickupDef(pickupIndex).itemTier;
                         if (pickupIndex != PickupIndex.none)
@@ -140,21 +141,21 @@ namespace RiskyTweaks.Tweaks.Stages.VoidStage
 
             float total = whiteChance + greenChance + redChance + voidChance;
 
-            if (bossRewardRng.RangeFloat(0f, total) <= whiteChance)//drop white
+            if (bossRewardRng.RangeFloat(0f, total) <= whiteChance && whiteChance > 0f)//drop white
             {
                 return Addressables.LoadAssetAsync<PickupDropTable>("RoR2/Base/Common/dtTier1Item.asset").WaitForCompletion();
             }
             else
             {
                 total -= whiteChance;
-                if (bossRewardRng.RangeFloat(0f, total) <= greenChance)//drop green
+                if (bossRewardRng.RangeFloat(0f, total) <= greenChance && greenChance > 0f)//drop green
                 {
                     return Addressables.LoadAssetAsync<PickupDropTable>("RoR2/Base/Common/dtTier2Item.asset").WaitForCompletion();
                 }
                 else
                 {
                     total -= greenChance;
-                    if ((bossRewardRng.RangeFloat(0f, total) <= redChance))
+                    if ((bossRewardRng.RangeFloat(0f, total) <= redChance) && redChance > 0f)
                     {
                         return Addressables.LoadAssetAsync<PickupDropTable>("RoR2/Base/Common/dtTier3Item.asset").WaitForCompletion();
                     }
