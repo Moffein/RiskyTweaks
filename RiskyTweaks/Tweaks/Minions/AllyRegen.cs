@@ -60,15 +60,16 @@ namespace RiskyTweaks.Tweaks.Minions
 
             foreach (var key in droneInfo.Keys)
             {
-                SetRegen(BodyCatalog.FindBodyPrefab(key), droneInfo.GetValueOrDefault(key));
+                SetRegen(key, droneInfo.GetValueOrDefault(key));
             }
         }
 
-        public static void SetRegen(GameObject bodyPrefab, float fullRegenTime)
+        public static void SetRegen(string bodyPrefabName, float fullRegenTime)
         {
+            GameObject bodyPrefab = BodyCatalog.FindBodyPrefab(bodyPrefabName);
             if (!bodyPrefab)
             {
-                Debug.LogError("AllyRegen.SetRegen: bodyPrefab is null");
+                Debug.LogError("AllyRegen.SetRegen: "+bodyPrefabName+" is null");
                 return;
             }
 
