@@ -58,18 +58,12 @@ namespace RiskyTweaks.Tweaks.Survivors.Treebot
                             newForce.y = Mathf.Max(newForce.y, 1200f);
                         }
 
-                        Vector3 distance = hurtBox.transform.position - aimRay.origin;
-                        float distMagnitude = distance.magnitude;
-
-                        //float distMult = Mathf.Lerp(1.1f, 0.5f, distance.magnitude / (self.maxDistance + 1f));
-                        float distMult = 1f;
-
                         if (body.isChampion && body.characterMotor && body.characterMotor.isGrounded)
                         {
                             newForce.y /= 0.7f;
                         }
 
-                        return newForce * distMult;
+                        return newForce;
                     });
 
                     //Modify Force multiplier
