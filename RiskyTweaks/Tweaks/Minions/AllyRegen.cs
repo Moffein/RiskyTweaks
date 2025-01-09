@@ -41,6 +41,8 @@ namespace RiskyTweaks.Tweaks.Minions
             {"PsyDroneRedBody", 40f },
             {"LaserDrone1Body", 40f },
             {"LaserDrone2Body", 40f },
+
+            {"InfernoDroneBody", 40f }
         };
 
         protected override void ApplyChanges()
