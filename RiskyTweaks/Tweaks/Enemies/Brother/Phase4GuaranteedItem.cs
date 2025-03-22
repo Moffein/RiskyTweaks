@@ -59,7 +59,7 @@ namespace RiskyTweaks.Tweaks.Enemies.Brother
 
     public class GuaranteedItemReturnComponent : MonoBehaviour
     {
-        public static float cooldownDuration = 30f;
+        public static float cooldownDuration = 15f;
         public static float closeRangeDistanceSqr = 30f * 30f;
         public static float closeRangeCooldownMult = 3f;
         private List<AttackerCooldown> cooldowns = new List<AttackerCooldown>();
