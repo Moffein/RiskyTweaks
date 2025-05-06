@@ -14,7 +14,7 @@ namespace RiskyTweaks.Tweaks.Survivors.CHEF
 
         public override string ConfigOptionName => "(Server-Side) Snappier Dice";
 
-        public override string ConfigDescriptionString => "Dice has no minimum delay before returning.";
+        public override string ConfigDescriptionString => "Dice has a shorter minimum delay before returning.";
 
         protected override void ApplyChanges()
         {
@@ -23,7 +23,7 @@ namespace RiskyTweaks.Tweaks.Survivors.CHEF
             //Debug.Log("RiskyTweaks: Cleaver Charge: " + cleave.holdChargeTime);   //0.33
             //Debug.Log("RiskyTweaks: Cleaver Transition: " + cleave.transitionDuration);   //0.055
             //Debug.Log("RiskyTweaks: Cleaver min travel time: " + cleave.minTravelTime);  //ONE WHOLE SECOND
-            cleave.minTravelTime = 0f;
+            cleave.minTravelTime = 0.2f;
         }
     }
 }
