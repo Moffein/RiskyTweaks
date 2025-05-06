@@ -16,6 +16,7 @@ namespace RiskyTweaks.Tweaks.Survivors.FalseSon
         {
             SneedUtils.SetAddressableEntityStateField("RoR2/DLC2/FalseSon/EntityStates.FalseSon.ChargedClubSwing.asset", "unchargedBlastProcCoefficient", "1");
             SneedUtils.SetAddressableEntityStateField("RoR2/DLC2/FalseSon/EntityStates.FalseSon.ChargedClubSwing.asset", "blastProcCoefficient", "1");
+            SneedUtils.SetAddressableEntityStateField("RoR2/DLC2/FalseSon/EntityStates.FalseSon.ClubGroundSlam.asset", "blastProcCoefficient", "1");
         }
     }
 }
