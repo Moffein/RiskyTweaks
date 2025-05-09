@@ -21,9 +21,35 @@ namespace RiskyTweaks.Tweaks.General
         public const float minDecay = 0.25f;
         public const float maxDecay = 1f;
 
+        //CURSED
+        private BodyIndex seekerBodyIndex;
+        private List<HealthComponent> seekerReprieveHealthComponents = new List<HealthComponent>();
+
         protected override void ApplyChanges()
         {
+            //Cursed code to make Reprieve not last forever
+            On.EntityStates.Seeker.Reprieve.OnEnter += Reprieve_OnEnter;
+            On.EntityStates.Seeker.Reprieve.OnExit += Reprieve_OnExit;
+            RoR2.Stage.onStageStartGlobal += Stage_onStageStartGlobal;
+
             IL.RoR2.HealthComponent.ServerFixedUpdate += HealthComponent_ServerFixedUpdate;
+        }
+
+        private void Stage_onStageStartGlobal(Stage obj)
+        {
+            seekerReprieveHealthComponents.Clear();
+        }
+
+        private void Reprieve_OnExit(On.EntityStates.Seeker.Reprieve.orig_OnExit orig, EntityStates.Seeker.Reprieve self)
+        {
+            if (self.healthComponent) seekerReprieveHealthComponents.Remove(self.healthComponent);
+            orig(self);
+        }
+
+        private void Reprieve_OnEnter(On.EntityStates.Seeker.Reprieve.orig_OnEnter orig, EntityStates.Seeker.Reprieve self)
+        {
+            orig(self);
+            if (self.healthComponent) seekerReprieveHealthComponents.Add(self.healthComponent);
         }
 
         private void HealthComponent_ServerFixedUpdate(ILContext il)
@@ -36,6 +62,8 @@ namespace RiskyTweaks.Tweaks.General
                 c.Emit(OpCodes.Ldarg_0);
                 c.EmitDelegate<Func<float, HealthComponent, float>>((decayRate, self) =>
                 {
+                    if (seekerReprieveHealthComponents.Contains(self)) return decayRate;
+
                     float barrierPercent = self.barrier / self.fullCombinedHealth;
                     return decayRate * Mathf.Lerp(minDecay, maxDecay, barrierPercent);
                 });
