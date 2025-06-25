@@ -1,4 +1,5 @@
-﻿using RoR2.Projectile;
+﻿using RoR2;
+using RoR2.Projectile;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -26,12 +27,16 @@ namespace RiskyTweaks.Tweaks.Survivors.Railgunner
         private void SlowDownProjectiles_OnTriggerEnter(On.RoR2.Projectile.SlowDownProjectiles.orig_OnTriggerEnter orig, RoR2.Projectile.SlowDownProjectiles self, UnityEngine.Collider other)
         {
             {
-                if (self.gameObject.name == "RailgunnerMineAltDetonated(Clone)")
+                if (self.gameObject.name == "RailgunnerMineAltDetonated(Clone)" && self.teamFilter)
                 {
-                    ProjectileDamage pd = other.GetComponent<ProjectileDamage>();
-                    if (pd)
+                    TeamFilter tf = other.GetComponent<TeamFilter>();
+                    if (tf && tf.teamIndex != self.teamFilter.teamIndex)
                     {
-                        pd.damage /= reductionFactor;
+                        ProjectileDamage pd = other.GetComponent<ProjectileDamage>();
+                        if (pd)
+                        {
+                            pd.damage /= reductionFactor;
+                        }
                     }
                 }
                 orig(self, other);
@@ -41,12 +46,16 @@ namespace RiskyTweaks.Tweaks.Survivors.Railgunner
 
         private void SlowDownProjectiles_OnTriggerExit(On.RoR2.Projectile.SlowDownProjectiles.orig_OnTriggerExit orig, RoR2.Projectile.SlowDownProjectiles self, UnityEngine.Collider other)
         {
-            if (self.gameObject.name == "RailgunnerMineAltDetonated(Clone)")
+            if (self.gameObject.name == "RailgunnerMineAltDetonated(Clone)" && self.teamFilter)
             {
-                ProjectileDamage pd = other.GetComponent<ProjectileDamage>();
-                if (pd && other.GetComponent<ProjectileSimple>())
+                TeamFilter tf = other.GetComponent<TeamFilter>();
+                if (tf && tf.teamIndex != self.teamFilter.teamIndex)
                 {
-                    pd.damage *= reductionFactor;
+                    ProjectileDamage pd = other.GetComponent<ProjectileDamage>();
+                    if (pd)
+                    {
+                        pd.damage *= reductionFactor;
+                    }
                 }
             }
             orig(self, other);
