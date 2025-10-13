@@ -13,9 +13,25 @@ namespace RiskyTweaks.Tweaks.Survivors.Bandit2
 
         public override string ConfigDescriptionString => "Hemorrhage ignores positive armor.";
 
+        private bool hookIsApplied = false;
+
         protected override void ApplyChanges()
         {
+            AddHook();
+        }
+
+        public void AddHook()
+        {
+            if (hookIsApplied) return;
             On.RoR2.HealthComponent.TakeDamageProcess += HealthComponent_TakeDamageProcess;
+            hookIsApplied = true;
+        }
+
+        public void RemoveHook()
+        {
+            if (!hookIsApplied) return;
+            On.RoR2.HealthComponent.TakeDamageProcess -= HealthComponent_TakeDamageProcess;
+            hookIsApplied = false;
         }
 
         private void HealthComponent_TakeDamageProcess(On.RoR2.HealthComponent.orig_TakeDamageProcess orig, RoR2.HealthComponent self, RoR2.DamageInfo damageInfo)
