@@ -17,10 +17,10 @@ namespace RiskyTweaks.Tweaks.Survivors.Croco
 
         protected override void ApplyChanges()
         {
-            IL.RoR2.DotController.AddDot += DotController_AddDot;
+            IL.RoR2.DotController.AddDot_GameObject_float_HurtBox_DotIndex_float_Nullable1_Nullable1_Nullable1 += DotController_AddDot_GameObject_float_HurtBox_DotIndex_float_Nullable1_Nullable1_Nullable1;
         }
 
-        private void DotController_AddDot(ILContext il)
+        private void DotController_AddDot_GameObject_float_HurtBox_DotIndex_float_Nullable1_Nullable1_Nullable1(ILContext il)
         {
             ILCursor c = new ILCursor(il);
             if (c.TryGotoNext(

@@ -33,7 +33,7 @@ namespace RiskyTweaks.Tweaks.Survivors.Mage
                 c.Index++;
                 c.EmitDelegate<Func<float, float>>(orig =>
                 {
-                    return Enabled.Value ? 10.15f : orig;//10.15 = 7 * 1.45
+                    return Enabled.Value ? 7f : orig;//10.15 = 7 * 1.45
                 });
             }
             else
