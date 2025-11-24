@@ -71,6 +71,11 @@ namespace RiskyTweaks.Tweaks.Survivors.Treebot
                     c.Emit(OpCodes.Ldloc, 4);   //Hurtbox
                     c.EmitDelegate<Func<float, HurtBox, float>>((origForceMult, hurtBox) =>
                     {
+                        if (hurtBox.healthComponent.body.bodyIndex == DLC3Content.BodyPrefabs.SolusHeartBody.bodyIndex)
+                        {
+                            return origForceMult;
+                        }
+
                         float mass = 1f;
                         CharacterBody body = hurtBox.healthComponent.body;
                         if (body.characterMotor)
