@@ -51,7 +51,8 @@ namespace RiskyTweaks.Tweaks.Stages.VoidStage
                         HoldoutZoneController holdoutZone = self;
                         PickupDropTable dropTable = SelectItem();
 
-                        PickupIndex pickupIndex = dropTable.GenerateDrop(Run.instance.bossRewardRng);
+                        UniquePickup pickup = dropTable.GeneratePickup(Run.instance.bossRewardRng);
+                        PickupIndex pickupIndex = pickup.pickupIndex;
                         ItemTier tier = PickupCatalog.GetPickupDef(pickupIndex).itemTier;
                         if (pickupIndex != PickupIndex.none)
                         {
