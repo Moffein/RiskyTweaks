@@ -18,9 +18,10 @@ namespace RiskyTweaks
     [BepInDependency("zombieseatflesh7.ArtifactOfPotential", BepInDependency.DependencyFlags.SoftDependency)]
     [BepInDependency("com.rune580.riskofoptions", BepInDependency.DependencyFlags.SoftDependency)]
     [BepInDependency("com.Moffein.Heretic", BepInDependency.DependencyFlags.SoftDependency)]
+    [BepInDependency("com.Gorakh.ItemQualities", BepInDependency.DependencyFlags.SoftDependency)]
     [BepInDependency(R2API.R2API.PluginGUID)]
     [NetworkCompatibility(CompatibilityLevel.NoNeedForSync, VersionStrictness.DifferentModVersionsAreOk)]
-    [BepInPlugin("com.Moffein.RiskyTweaks", "RiskyTweaks", "1.9.3")]
+    [BepInPlugin("com.Moffein.RiskyTweaks", "RiskyTweaks", "1.9.4")]
     public class RiskyTweaks : BaseUnityPlugin
     {
         public static PluginInfo pluginInfo;

@@ -13,6 +13,12 @@ namespace RiskyTweaks.Tweaks.Items.FrostRelic
 
         protected override void ApplyChanges()
         {
+            if (BepInEx.Bootstrap.Chainloader.PluginInfos.ContainsKey("com.Gorakh.ItemQualities"))
+            {
+                Debug.LogWarning("RiskyTweaks: Skipping FrostRelic RemoveBubble because Quality is installed, to prevent incompats.");
+                return;
+            }
+
             GameObject indicator = LegacyResourcesAPI.Load<GameObject>("Prefabs/NetworkedObjects/IcicleAura");
             ParticleSystemRenderer[] pr = indicator.GetComponentsInChildren<ParticleSystemRenderer>();
             foreach (ParticleSystemRenderer p in pr)
