@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using UnityEngine;
+using BepInEx.Configuration;
 
 namespace RiskyTweaks.Tweaks.Items
 {
@@ -14,6 +15,14 @@ namespace RiskyTweaks.Tweaks.Items
         public override string ConfigOptionName => "(Server-Side) Shuriken - No Band Proc";
 
         public override string ConfigDescriptionString => "Shuriken doesn't trigger elemental bands.";
+
+        public bool playersOnly;
+
+        protected override void ReadConfig(ConfigFile config)
+        {
+            base.ReadConfig(config);
+            playersOnly = config.Bind(ConfigCategoryString, ConfigOptionName + " - Only Affect Players", true, new ConfigDescription("Makes the Shuriken band tweak only affect players.")).Value;
+        }
 
         //Can't IL hook because vanilla method doesn't take ProcChainMask as an argument.
         protected override void ApplyChanges()
@@ -38,7 +47,10 @@ namespace RiskyTweaks.Tweaks.Items
                 speedOverride = -1f,
                 procChainMask = default(ProcChainMask)
             };
-            fpi.procChainMask.AddProc(ProcType.Rings);
+            if (!playersOnly || (self.body && self.body.isPlayerControlled))
+            {
+                fpi.procChainMask.AddProc(ProcType.Rings);
+            }
             ProjectileManager.instance.FireProjectile(fpi);
         }
     }
