@@ -21,7 +21,7 @@ namespace RiskyTweaks
     [BepInDependency("com.Gorakh.ItemQualities", BepInDependency.DependencyFlags.SoftDependency)]
     [BepInDependency(R2API.R2API.PluginGUID)]
     [NetworkCompatibility(CompatibilityLevel.NoNeedForSync, VersionStrictness.DifferentModVersionsAreOk)]
-    [BepInPlugin("com.Moffein.RiskyTweaks", "RiskyTweaks", "1.9.6")]
+    [BepInPlugin("com.Moffein.RiskyTweaks", "RiskyTweaks", "1.10.0")]
     public class RiskyTweaks : BaseUnityPlugin
     {
         public static PluginInfo pluginInfo;

@@ -1,7 +1,7 @@
 ﻿using RoR2;
 using UnityEngine.AddressableAssets;
 
-namespace RiskyTweaks.Tweaks.Enemies
+namespace RiskyTweaks.Tweaks.Enemies.DLC3
 {
     public class SolusSpawnrates : TweakBase<SolusSpawnrates>
     {
