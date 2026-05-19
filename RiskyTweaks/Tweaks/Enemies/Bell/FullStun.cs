@@ -36,6 +36,7 @@ namespace RiskyTweaks.Tweaks.Enemies.Bell
 
             SetStateOnHurt ssoh = enemyObject.GetComponent<SetStateOnHurt>();
             ssoh.idleStateMachine = new EntityStateMachine[] { weapon };
+            ssoh.canBeHitStunned = false;
         }
     }
 }
