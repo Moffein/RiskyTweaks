@@ -1,4 +1,5 @@
-﻿using System;
+﻿using EntityStates.Captain.Weapon;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -22,7 +23,7 @@ namespace RiskyTweaks.Tweaks.Survivors.Captain
         private void FireCaptainShotgun_ModifyBullet(On.EntityStates.Captain.Weapon.FireCaptainShotgun.orig_ModifyBullet orig, EntityStates.Captain.Weapon.FireCaptainShotgun self, RoR2.BulletAttack bulletAttack)
         {
             orig(self, bulletAttack);
-            if (self.fireSoundString == "FireCaptainShotgun.tightSoundString")
+            if (self.fireSoundString == FireCaptainShotgun.tightSoundString)
             {
                 bulletAttack.falloffModel = RoR2.BulletAttack.FalloffModel.None;
             }
